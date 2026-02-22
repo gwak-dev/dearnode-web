@@ -228,8 +228,7 @@ body {
   display: flex;
   position: relative;
   overflow: hidden;
-  padding-top: 5.5em !important;
-  padding-bottom: 5em !important;
+  padding: 5.5em var(--container-padding) 5em !important;
 }
 
 .dots-wrap {
