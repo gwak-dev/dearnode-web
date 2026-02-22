@@ -1,0 +1,11 @@
+# Screenshots
+*.png
+
+# Reference source
+dearnode-01.webflow/
+
+# Unused
+fonts/
+style.css
+node_modules/
+.DS_Store
