@@ -86,6 +86,7 @@ body {
 
 .body.is--cursor.is--dark {
   overscroll-behavior: none;
+  background-color: #08342a;
 }
 
 /* ---- Osmo UI frame ---- */
@@ -163,35 +164,18 @@ body {
   display: flex;
 }
 
-.cloneable-title {
-  grid-column-gap: .5em;
-  grid-row-gap: .5em;
+.dn-footer-tagline {
   pointer-events: auto;
-  display: flex;
-  position: relative;
-}
-
-.cloneable-title__nr {
-  opacity: 1;
-  white-space: nowrap;
-  margin-bottom: 0;
   font-size: 1em;
-  font-weight: 600;
-}
-
-.cloneable-title__h1 {
+  font-weight: 700;
+  color: var(--color-light);
   white-space: nowrap;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 1em;
-  font-weight: 500;
   line-height: 1;
-  opacity: 0.5;
 }
 
 /* ---- dearnode logo SVG ---- */
 .dn-logo {
-  width: 10em;
+  width: 8em;
   height: auto;
   pointer-events: auto;
 }
@@ -204,19 +188,6 @@ body {
   pointer-events: auto;
 }
 
-/* ---- Footer right ---- */
-.dn-footer-right {
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-}
-
-.dn-footer-text {
-  font-size: 1em;
-  font-weight: 500;
-  color: inherit;
-  opacity: 0.5;
-}
 
 /* ---- Dots section ---- */
 .cloneable {
@@ -275,7 +246,7 @@ body {
 .dn-hero h1 {
   font-family: 'Funnel Display', sans-serif;
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 0.95;
   letter-spacing: -0.03em;
   color: white;
   white-space: nowrap;
@@ -311,8 +282,7 @@ body {
 .body.is--cursor .pointer-events-auto,
 .body.is--cursor .nav-logo-row,
 .body.is--cursor .nav-row__right,
-.body.is--cursor .cloneable-title,
-.body.is--cursor .dn-footer-right {
+.body.is--cursor .dn-footer-tagline {
   cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b212e6b71494aa67ff_cursor-pointer%402x.svg") 12 0, pointer;
 }
 
@@ -322,18 +292,16 @@ body {
 .body.is--cursor input[type="search"],
 .body.is--cursor textarea,
 .body.is--cursor [contenteditable="true"],
-.body.is--cursor .cloneable-title__h1,
-.body.is--cursor .dn-footer-text,
 .body.is--cursor .dn-header-link {
   cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/6714e4e1f367de40becf9029_cursor-text%402x.svg") 9 19, text;
 }
 
 /* ---- Mobile ---- */
 @media screen and (max-width: 767px) {
-  .dn-logo { width: 7em; }
+  .dn-logo { width: 5.5em; }
   .dn-hero { padding-left: 1.25em; }
   .dn-hero h1 { white-space: normal; }
   .dn-hero__line1, .dn-hero__line2 { font-size: 28px; }
   .dots-container { inset: 1em; }
-  .cloneable-title__nr, .cloneable-title__h1 { font-size: .875em; }
+  .dn-footer-tagline { font-size: .875em; }
 }

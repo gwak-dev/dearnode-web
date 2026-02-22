@@ -1,66 +1,8 @@
 gsap.registerPlugin(InertiaPlugin);
 
-// Color palette backgrounds (1, 3, 4, 6 + current green)
-const PALETTES = [
-  "#08342a", // green (current)
-  "#1A1C2E", // 1 - dark navy
-  "#8B7E74", // 3 - mocha
-  "#121212", // 4 - black
-  "#D32F2F", // 6 - red
-];
-
-function hexToHSL(hex) {
-  let r = parseInt(hex.slice(1, 3), 16) / 255;
-  let g = parseInt(hex.slice(3, 5), 16) / 255;
-  let b = parseInt(hex.slice(5, 7), 16) / 255;
-  const max = Math.max(r, g, b), min = Math.min(r, g, b);
-  let h, s, l = (max + min) / 2;
-  if (max === min) { h = s = 0; }
-  else {
-    const d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-    if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
-    else if (max === g) h = ((b - r) / d + 2) / 6;
-    else h = ((r - g) / d + 4) / 6;
-  }
-  return [h * 360, s * 100, l * 100];
-}
-
-function hslToHex(h, s, l) {
-  s /= 100; l /= 100;
-  const a = s * Math.min(l, 1 - l);
-  const f = n => {
-    const k = (n + h / 30) % 12;
-    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-    return Math.round(255 * color).toString(16).padStart(2, '0');
-  };
-  return `#${f(0)}${f(8)}${f(4)}`;
-}
-
-function deriveColors(bgHex) {
-  const [h, s, l] = hexToHSL(bgHex);
-  // Base dot: same hue, slightly brighter
-  const base = s < 5
-    ? hslToHex(h, 0, Math.min(l + 15, 40))
-    : hslToHex(h, Math.min(s * 0.8, 40), Math.min(l + 15, 40));
-  // Active dot: complementary hue for contrast
-  const compH = (h + 180) % 360;
-  const active = s < 5
-    ? hslToHex(compH, 50, 75)
-    : hslToHex(compH, Math.min(s + 30, 90), 70);
-  return { base, active };
-}
-
-function applyPalette() {
-  const bg = PALETTES[Math.floor(Math.random() * PALETTES.length)];
-  document.body.style.backgroundColor = bg;
-  return { bg, colors: deriveColors(bg) };
-}
-
 function initGlowingInteractiveDotsGrid() {
-  const { bg, colors } = applyPalette();
-
   document.querySelectorAll('[data-dots-container-init]').forEach(container => {
+    const colors         = { base: "#245E51", active: "#A8FF51" };
     const threshold      = 200;
     const speedThreshold = 100;
     const shockRadius    = 325;
@@ -73,29 +15,23 @@ function initGlowingInteractiveDotsGrid() {
     let dots       = [];
     let dotCenters = [];
 
-    function getHeroZones() {
-      const zones = [];
-      const pad = 12;
-      document.querySelectorAll('.dn-hero h1').forEach(el => {
-        const r = el.getBoundingClientRect();
-        if (r.width > 0) {
-          zones.push({
-            left:   r.left - pad,
-            top:    r.top - pad,
-            right:  r.right + pad,
-            bottom: r.bottom + pad
-          });
-        }
-      });
-      return zones;
+    function getHeroZone() {
+      const hero = document.querySelector('.dn-hero');
+      if (!hero) return null;
+      const r = hero.getBoundingClientRect();
+      const pad = 10;
+      if (r.width === 0) return null;
+      return {
+        left:   r.left - pad,
+        top:    r.top - pad,
+        right:  r.right + pad,
+        bottom: r.bottom + pad
+      };
     }
 
-    function isInHeroZone(x, y, zones) {
-      for (let i = 0; i < zones.length; i++) {
-        const z = zones[i];
-        if (x >= z.left && x <= z.right && y >= z.top && y <= z.bottom) return true;
-      }
-      return false;
+    function isInHeroZone(x, y, zone) {
+      if (!zone) return false;
+      return x >= zone.left && x <= zone.right && y >= zone.top && y <= zone.bottom;
     }
 
     function buildGrid() {
@@ -112,9 +48,8 @@ function initGlowingInteractiveDotsGrid() {
       const rows  = Math.floor((contH + gapPx) / (dotPx + gapPx));
       const total = cols * rows;
 
-      const heroZones = getHeroZones();
+      const heroZone = getHeroZone();
 
-      // Pre-calculate dot positions for hero exclusion
       const totalW = cols * dotPx + (cols - 1) * gapPx;
       const totalH = rows * dotPx + (rows - 1) * gapPx;
       const offsetX = (contW - totalW) / 2;
@@ -128,7 +63,7 @@ function initGlowingInteractiveDotsGrid() {
         const dotX = containerRect.left + offsetX + col * (dotPx + gapPx) + dotPx / 2;
         const dotY = containerRect.top + offsetY + row * (dotPx + gapPx) + dotPx / 2;
 
-        const isHero = isInHeroZone(dotX, dotY, heroZones);
+        const isHero = isInHeroZone(dotX, dotY, heroZone);
 
         const d = document.createElement("div");
         d.classList.add("dot");
@@ -164,7 +99,6 @@ function initGlowingInteractiveDotsGrid() {
 
     if (isMobile) return;
 
-    // Smooth glow loop
     let mouseX = -9999, mouseY = -9999;
     function glowTick() {
       for (let i = 0; i < dotCenters.length; i++) {
