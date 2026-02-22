@@ -300,6 +300,36 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ---- Custom cursors (Osmo pixel) ---- */
+.body.is--cursor,
+.body.is--cursor * {
+  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b239d7aeb290a31ac5_cursor-default%402x.svg") 2 0, auto;
+}
+
+.body.is--cursor a,
+.body.is--cursor button,
+.body.is--cursor [role="button"],
+.body.is--cursor input[type="submit"],
+.body.is--cursor .pointer-events-auto,
+.body.is--cursor .nav-logo-row,
+.body.is--cursor .nav-row__right,
+.body.is--cursor .cloneable-title,
+.body.is--cursor .dn-footer-right {
+  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b212e6b71494aa67ff_cursor-pointer%402x.svg") 12 0, pointer;
+}
+
+.body.is--cursor input[type="text"],
+.body.is--cursor input[type="email"],
+.body.is--cursor input[type="password"],
+.body.is--cursor input[type="search"],
+.body.is--cursor textarea,
+.body.is--cursor [contenteditable="true"],
+.body.is--cursor .cloneable-title__h1,
+.body.is--cursor .dn-footer-text,
+.body.is--cursor .dn-header-link {
+  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/6714e4e1f367de40becf9029_cursor-text%402x.svg") 9 19, text;
+}
+
 /* ---- Mobile ---- */
 @media screen and (max-width: 767px) {
   .dn-logo { width: 5em; }
