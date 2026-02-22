@@ -39,14 +39,15 @@ function hslToHex(h, s, l) {
 
 function deriveColors(bgHex) {
   const [h, s, l] = hexToHSL(bgHex);
-  if (s < 5) {
-    // Achromatic: just shift lightness
-    const base = hslToHex(h, 0, Math.min(l + 15, 40));
-    const active = hslToHex(h, 0, Math.min(l + 55, 90));
-    return { base, active };
-  }
-  const base = hslToHex(h, Math.min(s * 0.8, 40), Math.min(l + 15, 40));
-  const active = hslToHex(h, Math.min(s + 20, 100), Math.min(l + 50, 85));
+  // Base dot: same hue, slightly brighter
+  const base = s < 5
+    ? hslToHex(h, 0, Math.min(l + 15, 40))
+    : hslToHex(h, Math.min(s * 0.8, 40), Math.min(l + 15, 40));
+  // Active dot: complementary hue for contrast
+  const compH = (h + 180) % 360;
+  const active = s < 5
+    ? hslToHex(compH, 50, 75)
+    : hslToHex(compH, Math.min(s + 30, 90), 70);
   return { base, active };
 }
 
@@ -74,7 +75,7 @@ function initGlowingInteractiveDotsGrid() {
 
     function getHeroZones() {
       const zones = [];
-      const pad = 30;
+      const pad = 12;
       document.querySelectorAll('.dn-hero h1').forEach(el => {
         const r = el.getBoundingClientRect();
         if (r.width > 0) {

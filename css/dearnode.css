@@ -191,7 +191,7 @@ body {
 
 /* ---- dearnode logo SVG ---- */
 .dn-logo {
-  width: 7em;
+  width: 10em;
   height: auto;
   pointer-events: auto;
 }
@@ -274,8 +274,8 @@ body {
 
 .dn-hero h1 {
   font-family: 'Funnel Display', sans-serif;
-  font-weight: 400;
-  line-height: 1.15;
+  font-weight: 600;
+  line-height: 1.1;
   letter-spacing: -0.03em;
   color: white;
   white-space: nowrap;
@@ -283,12 +283,12 @@ body {
 }
 
 .dn-hero__line1 {
-  font-size: clamp(28px, 4vw, 60px);
+  font-size: clamp(32px, 5.5vw, 80px);
   animation: fadeUp 0.9s ease forwards 0.5s;
 }
 
 .dn-hero__line2 {
-  font-size: clamp(28px, 4vw, 60px);
+  font-size: clamp(32px, 5.5vw, 80px);
   animation: fadeUp 0.9s ease forwards 0.7s;
 }
 
@@ -330,10 +330,10 @@ body {
 
 /* ---- Mobile ---- */
 @media screen and (max-width: 767px) {
-  .dn-logo { width: 5em; }
+  .dn-logo { width: 7em; }
   .dn-hero { padding-left: 1.25em; }
   .dn-hero h1 { white-space: normal; }
-  .dn-hero__line1, .dn-hero__line2 { font-size: 24px; }
+  .dn-hero__line1, .dn-hero__line2 { font-size: 28px; }
   .dots-container { inset: 1em; }
   .cloneable-title__nr, .cloneable-title__h1 { font-size: .875em; }
 }
