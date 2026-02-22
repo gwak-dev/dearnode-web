@@ -1,8 +1,65 @@
 gsap.registerPlugin(InertiaPlugin);
 
+// Color palette backgrounds (1, 3, 4, 6 + current green)
+const PALETTES = [
+  "#08342a", // green (current)
+  "#1A1C2E", // 1 - dark navy
+  "#8B7E74", // 3 - mocha
+  "#121212", // 4 - black
+  "#D32F2F", // 6 - red
+];
+
+function hexToHSL(hex) {
+  let r = parseInt(hex.slice(1, 3), 16) / 255;
+  let g = parseInt(hex.slice(3, 5), 16) / 255;
+  let b = parseInt(hex.slice(5, 7), 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h, s, l = (max + min) / 2;
+  if (max === min) { h = s = 0; }
+  else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+    else if (max === g) h = ((b - r) / d + 2) / 6;
+    else h = ((r - g) / d + 4) / 6;
+  }
+  return [h * 360, s * 100, l * 100];
+}
+
+function hslToHex(h, s, l) {
+  s /= 100; l /= 100;
+  const a = s * Math.min(l, 1 - l);
+  const f = n => {
+    const k = (n + h / 30) % 12;
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * color).toString(16).padStart(2, '0');
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+function deriveColors(bgHex) {
+  const [h, s, l] = hexToHSL(bgHex);
+  if (s < 5) {
+    // Achromatic: just shift lightness
+    const base = hslToHex(h, 0, Math.min(l + 15, 40));
+    const active = hslToHex(h, 0, Math.min(l + 55, 90));
+    return { base, active };
+  }
+  const base = hslToHex(h, Math.min(s * 0.8, 40), Math.min(l + 15, 40));
+  const active = hslToHex(h, Math.min(s + 20, 100), Math.min(l + 50, 85));
+  return { base, active };
+}
+
+function applyPalette() {
+  const bg = PALETTES[Math.floor(Math.random() * PALETTES.length)];
+  document.body.style.backgroundColor = bg;
+  return { bg, colors: deriveColors(bg) };
+}
+
 function initGlowingInteractiveDotsGrid() {
+  const { bg, colors } = applyPalette();
+
   document.querySelectorAll('[data-dots-container-init]').forEach(container => {
-    const colors         = { base: "#245E51", active: "#A8FF51" };
     const threshold      = 200;
     const speedThreshold = 100;
     const shockRadius    = 325;
