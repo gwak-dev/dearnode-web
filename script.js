@@ -108,47 +108,27 @@ function initGlowingInteractiveDotsGrid() {
         dotPositions.push({ el: d, dotX, dotY });
       }
 
-      // After layout, snap hero vertically to dot grid, then hide overlapping dots
+      // After layout, hide dots that overlap hero text lines
       requestAnimationFrame(() => {
-        const hero = document.querySelector('.dn-hero');
-        const step = dotPx + gapPx;
+        const heroLines = getHeroLines();
 
-        if (hero) {
-          // Snap hero top so text sits between dot rows
-          const heroRect = hero.getBoundingClientRect();
-          const heroMidY = heroRect.top + heroRect.height / 2;
-          // Find the two dot rows closest to hero center
-          const firstRowY = containerRect.top + offsetY + dotPx / 2;
-          const rowIdx = Math.round((heroMidY - firstRowY) / step);
-          // Snap: center hero between dot rows (in the gap)
-          const snapY = firstRowY + rowIdx * step;
-          const newTop = snapY - heroRect.height / 2;
-          hero.style.top = (newTop - containerRect.top) + 'px';
-          hero.style.transform = 'none';
-        }
-
-        // Re-read hero lines after snap
-        requestAnimationFrame(() => {
-          const heroLines = getHeroLines();
-
-          dotPositions.forEach(({ el, dotX, dotY }) => {
-            if (isInHeroZone(dotX, dotY, heroLines, dotPx)) {
-              el.style.visibility = "hidden";
-              el._isHole = true;
-            }
-          });
-
-          dotCenters = dots
-            .filter(d => !d._isHole)
-            .map(d => {
-              const r = d.getBoundingClientRect();
-              return {
-                el: d,
-                x:  r.left + window.scrollX + r.width  / 2,
-                y:  r.top  + window.scrollY + r.height / 2
-              };
-            });
+        dotPositions.forEach(({ el, dotX, dotY }) => {
+          if (isInHeroZone(dotX, dotY, heroLines, dotPx)) {
+            el.style.visibility = "hidden";
+            el._isHole = true;
+          }
         });
+
+        dotCenters = dots
+          .filter(d => !d._isHole)
+          .map(d => {
+            const r = d.getBoundingClientRect();
+            return {
+              el: d,
+              x:  r.left + window.scrollX + r.width  / 2,
+              y:  r.top  + window.scrollY + r.height / 2
+            };
+          });
       });
     }
 

@@ -164,44 +164,26 @@ body {
   display: flex;
 }
 
-.footer-row__left {
+.dn-footer-tagline {
   pointer-events: auto;
-  display: flex;
-  align-items: baseline;
-  gap: 0.4em;
-}
-
-.dn-footer-brand {
   font-family: 'DM Sans', Arial, sans-serif;
-  font-size: 1.15em;
-  font-weight: 700;
+  font-size: 1.5em;
+  font-weight: 500;
   color: #ffffff;
   white-space: nowrap;
   line-height: 1;
   letter-spacing: -0.02em;
-}
-
-.dn-footer-desc {
-  font-family: 'DM Sans', Arial, sans-serif;
-  font-size: 1.15em;
-  font-weight: 400;
-  color: #ffffff;
-  white-space: nowrap;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  opacity: 0.5;
 }
 
 .dn-footer-status {
   pointer-events: auto;
   font-family: 'DM Sans', Arial, sans-serif;
-  font-size: 1.15em;
-  font-weight: 400;
+  font-size: 1.5em;
+  font-weight: 500;
   color: #ffffff;
   white-space: nowrap;
   line-height: 1;
   letter-spacing: -0.02em;
-  opacity: 0.5;
 }
 
 /* ---- dearnode logo SVG ---- */
@@ -270,7 +252,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
-  top: 50%;
+  top: 52%;
   left: 0;
   transform: translateY(-50%);
   padding-left: var(--container-padding);
@@ -278,8 +260,8 @@ body {
 
 .dn-hero h1 {
   font-family: 'Funnel Display', sans-serif;
-  font-weight: 600;
-  line-height: 1.1;
+  font-weight: 400;
+  line-height: 1.15;
   letter-spacing: -0.02em;
   color: white;
   white-space: nowrap;
@@ -317,7 +299,7 @@ body {
 .body.is--cursor .pointer-events-auto,
 .body.is--cursor .nav-logo-row,
 .body.is--cursor .nav-row__right,
-.body.is--cursor .dn-footer-brand,
+.body.is--cursor .dn-footer-tagline,
 .body.is--cursor .dn-footer-status {
   cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b212e6b71494aa67ff_cursor-pointer%402x.svg") 12 0, pointer;
 }
@@ -339,6 +321,5 @@ body {
   .dn-hero h1 { white-space: normal; }
   .dn-hero__line1, .dn-hero__line2 { font-size: 28px; }
   .dots-container { inset: 1em; }
-  .dn-footer-brand, .dn-footer-desc, .dn-footer-status { font-size: .875em; }
-  .footer-row__left { gap: 0.3em; }
+  .dn-footer-tagline, .dn-footer-status { font-size: 1em; }
 }
