@@ -15,22 +15,27 @@ function initGlowingInteractiveDotsGrid() {
     let dots       = [];
     let dotCenters = [];
 
-    function getHeroZone() {
-      const hero = document.querySelector('.dn-hero');
-      if (!hero) return null;
-      const r = hero.getBoundingClientRect();
-      if (r.width === 0) return null;
-      return {
-        left:   r.left - 4,
-        top:    r.top - 2,
-        right:  r.right + 4,
-        bottom: r.bottom - 2
-      };
+    function getHeroLines() {
+      const lines = document.querySelectorAll('.dn-hero h1');
+      if (!lines.length) return [];
+      return Array.from(lines).map(el => {
+        const r = el.getBoundingClientRect();
+        if (r.width === 0) return null;
+        return { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
+      }).filter(Boolean);
     }
 
-    function isInHeroZone(x, y, zone) {
-      if (!zone) return false;
-      return x >= zone.left && x <= zone.right && y >= zone.top && y <= zone.bottom;
+    function isInHeroZone(x, y, heroLines, dotPx) {
+      if (!heroLines.length) return false;
+      const r = dotPx * 0.5;
+      for (const line of heroLines) {
+        // Dot circle overlaps text rect
+        if (x + r > line.left && x - r < line.right &&
+            y + r > line.top && y - r < line.bottom) {
+          return true;
+        }
+      }
+      return false;
     }
 
     function alignToGrid(dotPx, gapPx, cols, offsetX, containerRect) {
@@ -84,8 +89,8 @@ function initGlowingInteractiveDotsGrid() {
       // Align hero and logo to dot grid edges
       alignToGrid(dotPx, gapPx, cols, offsetX, containerRect);
 
-      const heroZone = getHeroZone();
-
+      // Build all dots first, then hide ones that overlap hero text
+      const dotPositions = [];
       for (let i = 0; i < total; i++) {
         const row = Math.floor(i / cols);
         const col = i % cols;
@@ -93,34 +98,57 @@ function initGlowingInteractiveDotsGrid() {
         const dotX = containerRect.left + offsetX + col * (dotPx + gapPx) + dotPx / 2;
         const dotY = containerRect.top + offsetY + row * (dotPx + gapPx) + dotPx / 2;
 
-        const isHero = isInHeroZone(dotX, dotY, heroZone);
-
         const d = document.createElement("div");
         d.classList.add("dot");
-
-        if (isHero) {
-          d.style.visibility = "hidden";
-          d._isHole = true;
-        } else {
-          gsap.set(d, { x: 0, y: 0, backgroundColor: colors.base });
-          d._inertiaApplied = false;
-        }
+        gsap.set(d, { x: 0, y: 0, backgroundColor: colors.base });
+        d._inertiaApplied = false;
 
         container.appendChild(d);
         dots.push(d);
+        dotPositions.push({ el: d, dotX, dotY });
       }
 
+      // After layout, snap hero vertically to dot grid, then hide overlapping dots
       requestAnimationFrame(() => {
-        dotCenters = dots
-          .filter(d => !d._isHole)
-          .map(d => {
-            const r = d.getBoundingClientRect();
-            return {
-              el: d,
-              x:  r.left + window.scrollX + r.width  / 2,
-              y:  r.top  + window.scrollY + r.height / 2
-            };
+        const hero = document.querySelector('.dn-hero');
+        const step = dotPx + gapPx;
+
+        if (hero) {
+          // Snap hero top so text sits between dot rows
+          const heroRect = hero.getBoundingClientRect();
+          const heroMidY = heroRect.top + heroRect.height / 2;
+          // Find the two dot rows closest to hero center
+          const firstRowY = containerRect.top + offsetY + dotPx / 2;
+          const rowIdx = Math.round((heroMidY - firstRowY) / step);
+          // Snap: center hero between dot rows (in the gap)
+          const snapY = firstRowY + rowIdx * step;
+          const newTop = snapY - heroRect.height / 2;
+          hero.style.top = (newTop - containerRect.top) + 'px';
+          hero.style.transform = 'none';
+        }
+
+        // Re-read hero lines after snap
+        requestAnimationFrame(() => {
+          const heroLines = getHeroLines();
+
+          dotPositions.forEach(({ el, dotX, dotY }) => {
+            if (isInHeroZone(dotX, dotY, heroLines, dotPx)) {
+              el.style.visibility = "hidden";
+              el._isHole = true;
+            }
           });
+
+          dotCenters = dots
+            .filter(d => !d._isHole)
+            .map(d => {
+              const r = d.getBoundingClientRect();
+              return {
+                el: d,
+                x:  r.left + window.scrollX + r.width  / 2,
+                y:  r.top  + window.scrollY + r.height / 2
+              };
+            });
+        });
       });
     }
 
