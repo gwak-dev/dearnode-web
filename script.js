@@ -19,13 +19,12 @@ function initGlowingInteractiveDotsGrid() {
       const hero = document.querySelector('.dn-hero');
       if (!hero) return null;
       const r = hero.getBoundingClientRect();
-      const pad = 10;
       if (r.width === 0) return null;
       return {
-        left:   r.left - pad,
-        top:    r.top - pad,
-        right:  r.right + pad,
-        bottom: r.bottom + pad
+        left:   r.left - 4,
+        top:    r.top - 2,
+        right:  r.right + 4,
+        bottom: r.bottom - 2
       };
     }
 
@@ -42,9 +41,11 @@ function initGlowingInteractiveDotsGrid() {
       const firstDotLeft = containerRect.left + offsetX - sectionLeft;
       const lastDotRight = containerRect.left + offsetX + (cols - 1) * (dotPx + gapPx) + dotPx;
 
+      // Align hero left to second dot column (first dot column stays visible)
+      const secondDotLeft = containerRect.left + offsetX + (dotPx + gapPx);
       if (hero) {
-        hero.style.paddingLeft = firstDotLeft + 'px';
-        hero.style.left = '0';
+        hero.style.left = secondDotLeft + 'px';
+        hero.style.paddingLeft = '0';
       }
       const footerContainer = document.querySelector('.footer .container');
       if (footerContainer) {
