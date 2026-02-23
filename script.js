@@ -15,9 +15,7 @@ function initGlowingInteractiveDotsGrid() {
     let dots       = [];
     let dotCenters = [];
 
-    // Fixed hero slot: 4 rows × 11 cols, starting from col 1
-    const heroSlotCols = 11;
-    const heroSlotRows = 4;
+    // Fixed hero slot config (adjusted per grid size in buildGrid)
     const heroSlotStartCol = 1; // col 0 stays visible
 
     function alignToGrid(dotPx, gapPx, cols, offsetX, containerRect) {
@@ -67,6 +65,10 @@ function initGlowingInteractiveDotsGrid() {
       const offsetX = (contW - totalW) / 2;
       const offsetY = (contH - totalH) / 2;
       const containerRect = container.getBoundingClientRect();
+
+      // Scale hero slot to grid size
+      const heroSlotCols = Math.min(11, Math.floor(cols * 0.5));
+      const heroSlotRows = heroSlotCols <= 3 ? 4 : heroSlotCols <= 5 ? 3 : 4;
 
       // Calculate hero slot row: center vertically, nudge down slightly
       const midRow = Math.floor(rows / 2);

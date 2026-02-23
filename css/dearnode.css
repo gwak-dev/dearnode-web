@@ -322,5 +322,11 @@ body {
   .dn-hero h1 { white-space: normal; }
   .dn-hero__line1, .dn-hero__line2 { font-size: 28px; }
   .dots-container { inset: 1em; }
-  .dn-footer-tagline, .dn-footer-status { font-size: 1em; }
+  .dn-footer-tagline, .dn-footer-status { font-size: .875em; }
+  .footer-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+  }
+  .dn-hero__line1, .dn-hero__line2 { font-size: clamp(20px, 5vw, 32px); }
 }
