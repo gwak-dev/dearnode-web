@@ -187,10 +187,15 @@ body {
 }
 
 /* ---- dearnode logo SVG ---- */
+.dn-logo-link {
+  display: inline-flex;
+  pointer-events: auto;
+  text-decoration: none;
+}
+
 .dn-logo {
   width: 8em;
   height: auto;
-  pointer-events: auto;
 }
 
 /* ---- Header link ---- */
@@ -247,7 +252,7 @@ body {
 .dn-hero {
   position: absolute;
   z-index: 10;
-  pointer-events: none;
+  pointer-events: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -290,7 +295,7 @@ body {
 /* ---- Custom cursors (Osmo pixel) ---- */
 .body.is--cursor,
 .body.is--cursor * {
-  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b239d7aeb290a31ac5_cursor-default%402x.svg") 2 0, auto;
+  cursor: url("../cursors/cursor-default.svg") 2 0, auto;
 }
 
 .body.is--cursor a,
@@ -300,9 +305,10 @@ body {
 .body.is--cursor .pointer-events-auto,
 .body.is--cursor .nav-logo-row,
 .body.is--cursor .nav-row__right,
+.body.is--cursor .dn-logo-link,
 .body.is--cursor .dn-footer-tagline,
 .body.is--cursor .dn-footer-status {
-  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b212e6b71494aa67ff_cursor-pointer%402x.svg") 12 0, pointer;
+  cursor: url("../cursors/cursor-pointer.svg") 12 0, pointer;
 }
 
 .body.is--cursor input[type="text"],
@@ -312,15 +318,18 @@ body {
 .body.is--cursor textarea,
 .body.is--cursor [contenteditable="true"],
 .body.is--cursor .dn-header-link {
-  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/6714e4e1f367de40becf9029_cursor-text%402x.svg") 9 19, text;
+  cursor: url("../cursors/cursor-text.svg") 9 19, text;
+}
+
+.body.is--cursor .dn-hero,
+.body.is--cursor .dn-hero * {
+  cursor: url("../cursors/cursor-default.svg") 2 0, auto;
 }
 
 /* ---- Mobile ---- */
 @media screen and (max-width: 767px) {
   .dn-logo { width: 5.5em; }
   .dn-hero { padding-left: var(--container-padding); }
-  .dn-hero h1 { white-space: normal; }
-  .dn-hero__line1, .dn-hero__line2 { font-size: 28px; }
   .dots-container { inset: 1em; }
   .dn-footer-tagline, .dn-footer-status { font-size: .875em; }
   .footer-row {
@@ -328,5 +337,4 @@ body {
     align-items: flex-start;
     gap: 0.5em;
   }
-  .dn-hero__line1, .dn-hero__line2 { font-size: clamp(20px, 5vw, 32px); }
 }
