@@ -37,7 +37,9 @@ function initGlowingInteractiveDotsGrid() {
     function alignToGrid(dotPx, gapPx, cols, offsetX, containerRect) {
       const hero = document.querySelector('.dn-hero');
       const logo = document.querySelector('.dn-logo');
-      const firstDotLeft = containerRect.left + offsetX;
+      const section = container.closest('.cloneable');
+      const sectionLeft = section ? section.getBoundingClientRect().left : 0;
+      const firstDotLeft = containerRect.left + offsetX - sectionLeft;
       const lastDotRight = containerRect.left + offsetX + (cols - 1) * (dotPx + gapPx) + dotPx;
 
       if (hero) {
@@ -46,14 +48,14 @@ function initGlowingInteractiveDotsGrid() {
       }
       const footerContainer = document.querySelector('.footer .container');
       if (footerContainer) {
-        footerContainer.style.paddingLeft = firstDotLeft + 'px';
+        footerContainer.style.paddingLeft = (containerRect.left + offsetX) + 'px';
       }
       if (logo) {
-        const logoParent = logo.closest('.container');
-        if (logoParent) {
-          const parentRight = logoParent.getBoundingClientRect().right;
-          const rightPad = parentRight - lastDotRight;
-          logoParent.style.paddingRight = Math.max(0, rightPad) + 'px';
+        const headerContainer = logo.closest('.container');
+        if (headerContainer) {
+          const hcRight = headerContainer.getBoundingClientRect().right;
+          const rightPad = hcRight - lastDotRight;
+          headerContainer.style.paddingRight = Math.max(0, rightPad) + 'px';
         }
       }
     }

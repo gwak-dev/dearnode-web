@@ -259,12 +259,12 @@ body {
 }
 
 .dn-hero__line1 {
-  font-size: clamp(26px, 3.8vw, 56px);
+  font-size: clamp(24px, 3.2vw, 46px);
   animation: fadeUp 0.9s ease forwards 0.5s;
 }
 
 .dn-hero__line2 {
-  font-size: clamp(26px, 3.8vw, 56px);
+  font-size: clamp(24px, 3.2vw, 46px);
   animation: fadeUp 0.9s ease forwards 0.7s;
 }
 
