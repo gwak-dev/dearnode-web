@@ -46,44 +46,6 @@ function initGlowingInteractiveDotsGrid() {
       }
     }
 
-    function fitHeroText(hero, slotW) {
-      const lines = hero.querySelectorAll('h1');
-      if (!lines.length) return;
-
-      // Binary search for the largest font size where the widest line fits
-      let lo = 12, hi = 72;
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const style = getComputedStyle(lines[0]);
-      const fontFamily = style.fontFamily;
-      const fontWeight = style.fontWeight;
-
-      // Find the longest text among the lines
-      let longestText = '';
-      lines.forEach(line => {
-        if (line.textContent.length > longestText.length) {
-          longestText = line.textContent;
-        }
-      });
-
-      // Binary search for optimal font size
-      while (hi - lo > 0.5) {
-        const mid = (lo + hi) / 2;
-        ctx.font = `${fontWeight} ${mid}px ${fontFamily}`;
-        const textW = ctx.measureText(longestText).width;
-        if (textW <= slotW) {
-          lo = mid;
-        } else {
-          hi = mid;
-        }
-      }
-
-      const fontSize = Math.floor(lo) + 'px';
-      lines.forEach(line => {
-        line.style.fontSize = fontSize;
-      });
-    }
-
     function buildGrid() {
       container.innerHTML = "";
       dots = [];
@@ -106,7 +68,7 @@ function initGlowingInteractiveDotsGrid() {
 
       // Scale hero slot to grid size
       const heroSlotCols = Math.min(11, Math.floor(cols * 0.5));
-      const heroSlotRows = 2;
+      const heroSlotRows = heroSlotCols <= 3 ? 4 : heroSlotCols <= 5 ? 3 : 4;
 
       // Calculate hero slot row: center vertically, nudge down slightly
       const midRow = Math.floor(rows / 2);
@@ -132,8 +94,6 @@ function initGlowingInteractiveDotsGrid() {
         hero.style.paddingLeft = '0';
         hero.style.justifyContent = 'center';
 
-        // Auto-fit font size to slot width
-        fitHeroText(hero, slotW);
       }
 
       // Build dots, hiding the ones in the hero slot
