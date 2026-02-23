@@ -39,9 +39,7 @@ function initGlowingInteractiveDotsGrid() {
       if (logo) {
         const headerContainer = logo.closest('.container');
         if (headerContainer) {
-          const hcRight = headerContainer.getBoundingClientRect().right;
-          const rightPad = hcRight - lastDotRight;
-          headerContainer.style.paddingRight = Math.max(0, rightPad) + 'px';
+          headerContainer.style.paddingLeft = (containerRect.left + offsetX) + 'px';
         }
       }
     }
