@@ -239,28 +239,32 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: 0;
   top: 50%;
-  left: var(--container-padding);
+  left: 0;
   transform: translateY(-50%);
+  padding-left: var(--container-padding);
 }
 
 .dn-hero h1 {
   font-family: 'Funnel Display', sans-serif;
-  font-weight: 600;
-  line-height: 0.92;
+  font-weight: 700;
+  line-height: 1.0;
   letter-spacing: -0.03em;
   color: white;
   white-space: nowrap;
   opacity: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .dn-hero__line1 {
-  font-size: clamp(28px, 4.5vw, 68px);
+  font-size: clamp(26px, 3.8vw, 56px);
   animation: fadeUp 0.9s ease forwards 0.5s;
 }
 
 .dn-hero__line2 {
-  font-size: clamp(28px, 4.5vw, 68px);
+  font-size: clamp(26px, 3.8vw, 56px);
   animation: fadeUp 0.9s ease forwards 0.7s;
 }
 
@@ -300,7 +304,7 @@ body {
 /* ---- Mobile ---- */
 @media screen and (max-width: 767px) {
   .dn-logo { width: 5.5em; }
-  .dn-hero { left: var(--container-padding); }
+  .dn-hero { padding-left: var(--container-padding); }
   .dn-hero h1 { white-space: normal; }
   .dn-hero__line1, .dn-hero__line2 { font-size: 28px; }
   .dots-container { inset: 1em; }
