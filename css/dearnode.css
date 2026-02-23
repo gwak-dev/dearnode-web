@@ -166,11 +166,12 @@ body {
 
 .dn-footer-tagline {
   pointer-events: auto;
-  font-size: 1em;
+  font-size: 1.15em;
   font-weight: 700;
-  color: var(--color-light);
+  color: #ffffff;
   white-space: nowrap;
   line-height: 1;
+  letter-spacing: -0.02em;
 }
 
 /* ---- dearnode logo SVG ---- */
@@ -222,6 +223,7 @@ body {
 .dot {
   will-change: transform, background-color;
   transform-origin: center;
+  background-color: #245E51;
   border-radius: 50%;
   width: 1em;
   height: 1em;
@@ -238,15 +240,14 @@ body {
   flex-direction: column;
   align-items: flex-start;
   top: 50%;
-  left: 0;
+  left: var(--container-padding);
   transform: translateY(-50%);
-  padding-left: 7vw;
 }
 
 .dn-hero h1 {
   font-family: 'Funnel Display', sans-serif;
   font-weight: 600;
-  line-height: 0.95;
+  line-height: 0.92;
   letter-spacing: -0.03em;
   color: white;
   white-space: nowrap;
@@ -254,12 +255,12 @@ body {
 }
 
 .dn-hero__line1 {
-  font-size: clamp(32px, 5.5vw, 80px);
+  font-size: clamp(28px, 4.5vw, 68px);
   animation: fadeUp 0.9s ease forwards 0.5s;
 }
 
 .dn-hero__line2 {
-  font-size: clamp(32px, 5.5vw, 80px);
+  font-size: clamp(28px, 4.5vw, 68px);
   animation: fadeUp 0.9s ease forwards 0.7s;
 }
 
@@ -299,7 +300,7 @@ body {
 /* ---- Mobile ---- */
 @media screen and (max-width: 767px) {
   .dn-logo { width: 5.5em; }
-  .dn-hero { padding-left: 1.25em; }
+  .dn-hero { left: var(--container-padding); }
   .dn-hero h1 { white-space: normal; }
   .dn-hero__line1, .dn-hero__line2 { font-size: 28px; }
   .dots-container { inset: 1em; }
