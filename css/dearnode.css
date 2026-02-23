@@ -305,7 +305,8 @@ body {
 .body.is--cursor .pointer-events-auto,
 .body.is--cursor .nav-logo-row,
 .body.is--cursor .nav-row__right,
-.body.is--cursor .dn-logo-link {
+.body.is--cursor .dn-logo-link,
+.body.is--cursor .dn-logo-link * {
   cursor: url("../cursors/cursor-pointer.svg") 12 0, pointer;
 }
 
