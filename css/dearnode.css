@@ -167,7 +167,7 @@ body {
 .dn-footer-tagline {
   pointer-events: auto;
   font-family: 'DM Sans', Arial, sans-serif;
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: 400;
   color: #ffffff;
   white-space: nowrap;
@@ -178,7 +178,7 @@ body {
 .dn-footer-status {
   pointer-events: auto;
   font-family: 'DM Sans', Arial, sans-serif;
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: 400;
   color: #ffffff;
   white-space: nowrap;
@@ -272,12 +272,12 @@ body {
 }
 
 .dn-hero__line1 {
-  font-size: clamp(26px, 3.5vw, 50px);
+  font-size: clamp(28px, 4vw, 58px);
   animation: fadeUp 0.9s ease forwards 0.5s;
 }
 
 .dn-hero__line2 {
-  font-size: clamp(26px, 3.5vw, 50px);
+  font-size: clamp(28px, 4vw, 58px);
   animation: fadeUp 0.9s ease forwards 0.7s;
 }
 
