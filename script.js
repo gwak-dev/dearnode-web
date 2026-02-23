@@ -15,28 +15,10 @@ function initGlowingInteractiveDotsGrid() {
     let dots       = [];
     let dotCenters = [];
 
-    function getHeroLines() {
-      const lines = document.querySelectorAll('.dn-hero h1');
-      if (!lines.length) return [];
-      return Array.from(lines).map(el => {
-        const r = el.getBoundingClientRect();
-        if (r.width === 0) return null;
-        return { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
-      }).filter(Boolean);
-    }
-
-    function isInHeroZone(x, y, heroLines, dotPx) {
-      if (!heroLines.length) return false;
-      const r = dotPx * 0.5;
-      for (const line of heroLines) {
-        // Dot circle overlaps text rect
-        if (x + r > line.left && x - r < line.right &&
-            y + r > line.top && y - r < line.bottom) {
-          return true;
-        }
-      }
-      return false;
-    }
+    // Fixed hero slot: 4 rows × 11 cols, starting from col 1
+    const heroSlotCols = 11;
+    const heroSlotRows = 4;
+    const heroSlotStartCol = 1; // col 0 stays visible
 
     function alignToGrid(dotPx, gapPx, cols, offsetX, containerRect) {
       const hero = document.querySelector('.dn-hero');
@@ -86,39 +68,57 @@ function initGlowingInteractiveDotsGrid() {
       const offsetY = (contH - totalH) / 2;
       const containerRect = container.getBoundingClientRect();
 
-      // Align hero and logo to dot grid edges
+      // Calculate hero slot row: center vertically, nudge down slightly
+      const midRow = Math.floor(rows / 2);
+      const heroStartRow = midRow - Math.floor(heroSlotRows / 2) + 1;
+
+      // Align hero, logo, footer to grid
       alignToGrid(dotPx, gapPx, cols, offsetX, containerRect);
 
-      // Build all dots first, then hide ones that overlap hero text
-      const dotPositions = [];
+      // Position hero to fill the slot
+      const hero = document.querySelector('.dn-hero');
+      if (hero) {
+        const step = dotPx + gapPx;
+        const slotLeft = containerRect.left + offsetX + heroSlotStartCol * step;
+        const slotTop  = containerRect.top  + offsetY + heroStartRow * step;
+        const slotW    = heroSlotCols * step - gapPx;
+        const slotH    = heroSlotRows * step - gapPx;
+
+        hero.style.left = slotLeft + 'px';
+        hero.style.top  = slotTop + 'px';
+        hero.style.width = slotW + 'px';
+        hero.style.height = slotH + 'px';
+        hero.style.transform = 'none';
+        hero.style.paddingLeft = '0';
+        hero.style.justifyContent = 'center';
+      }
+
+      // Build dots, hiding the ones in the hero slot
       for (let i = 0; i < total; i++) {
         const row = Math.floor(i / cols);
         const col = i % cols;
 
-        const dotX = containerRect.left + offsetX + col * (dotPx + gapPx) + dotPx / 2;
-        const dotY = containerRect.top + offsetY + row * (dotPx + gapPx) + dotPx / 2;
+        const isHeroSlot = (
+          row >= heroStartRow && row < heroStartRow + heroSlotRows &&
+          col >= heroSlotStartCol && col < heroSlotStartCol + heroSlotCols
+        );
 
         const d = document.createElement("div");
         d.classList.add("dot");
-        gsap.set(d, { x: 0, y: 0, backgroundColor: colors.base });
-        d._inertiaApplied = false;
+
+        if (isHeroSlot) {
+          d.style.visibility = "hidden";
+          d._isHole = true;
+        } else {
+          gsap.set(d, { x: 0, y: 0, backgroundColor: colors.base });
+          d._inertiaApplied = false;
+        }
 
         container.appendChild(d);
         dots.push(d);
-        dotPositions.push({ el: d, dotX, dotY });
       }
 
-      // After layout, hide dots that overlap hero text lines
       requestAnimationFrame(() => {
-        const heroLines = getHeroLines();
-
-        dotPositions.forEach(({ el, dotX, dotY }) => {
-          if (isInHeroZone(dotX, dotY, heroLines, dotPx)) {
-            el.style.visibility = "hidden";
-            el._isHole = true;
-          }
-        });
-
         dotCenters = dots
           .filter(d => !d._isHole)
           .map(d => {

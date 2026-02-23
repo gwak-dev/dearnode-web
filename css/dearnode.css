@@ -168,7 +168,7 @@ body {
   pointer-events: auto;
   font-family: 'DM Sans', Arial, sans-serif;
   font-size: 1.5em;
-  font-weight: 500;
+  font-weight: 400;
   color: #ffffff;
   white-space: nowrap;
   line-height: 1;
@@ -179,7 +179,7 @@ body {
   pointer-events: auto;
   font-family: 'DM Sans', Arial, sans-serif;
   font-size: 1.5em;
-  font-weight: 500;
+  font-weight: 400;
   color: #ffffff;
   white-space: nowrap;
   line-height: 1;
@@ -252,10 +252,11 @@ body {
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
-  top: 52%;
+  top: 50%;
   left: 0;
   transform: translateY(-50%);
   padding-left: var(--container-padding);
+  justify-content: center;
 }
 
 .dn-hero h1 {
