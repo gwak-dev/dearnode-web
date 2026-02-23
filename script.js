@@ -34,6 +34,30 @@ function initGlowingInteractiveDotsGrid() {
       return x >= zone.left && x <= zone.right && y >= zone.top && y <= zone.bottom;
     }
 
+    function alignToGrid(dotPx, gapPx, cols, offsetX, containerRect) {
+      const hero = document.querySelector('.dn-hero');
+      const logo = document.querySelector('.dn-logo');
+      const firstDotLeft = containerRect.left + offsetX;
+      const lastDotRight = containerRect.left + offsetX + (cols - 1) * (dotPx + gapPx) + dotPx;
+
+      if (hero) {
+        hero.style.paddingLeft = firstDotLeft + 'px';
+        hero.style.left = '0';
+      }
+      const footerContainer = document.querySelector('.footer .container');
+      if (footerContainer) {
+        footerContainer.style.paddingLeft = firstDotLeft + 'px';
+      }
+      if (logo) {
+        const logoParent = logo.closest('.container');
+        if (logoParent) {
+          const parentRight = logoParent.getBoundingClientRect().right;
+          const rightPad = parentRight - lastDotRight;
+          logoParent.style.paddingRight = Math.max(0, rightPad) + 'px';
+        }
+      }
+    }
+
     function buildGrid() {
       container.innerHTML = "";
       dots = [];
@@ -48,13 +72,16 @@ function initGlowingInteractiveDotsGrid() {
       const rows  = Math.floor((contH + gapPx) / (dotPx + gapPx));
       const total = cols * rows;
 
-      const heroZone = getHeroZone();
-
       const totalW = cols * dotPx + (cols - 1) * gapPx;
       const totalH = rows * dotPx + (rows - 1) * gapPx;
       const offsetX = (contW - totalW) / 2;
       const offsetY = (contH - totalH) / 2;
       const containerRect = container.getBoundingClientRect();
+
+      // Align hero and logo to dot grid edges
+      alignToGrid(dotPx, gapPx, cols, offsetX, containerRect);
+
+      const heroZone = getHeroZone();
 
       for (let i = 0; i < total; i++) {
         const row = Math.floor(i / cols);
