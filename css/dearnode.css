@@ -175,7 +175,7 @@ body {
   letter-spacing: -0.02em;
 }
 
-.dn-footer-status {
+.dn-footer-email {
   pointer-events: auto;
   font-family: 'DM Sans', Arial, sans-serif;
   font-size: 1.25em;
@@ -184,6 +184,7 @@ body {
   white-space: nowrap;
   line-height: 1;
   letter-spacing: -0.02em;
+  text-decoration: none;
 }
 
 /* ---- dearnode logo SVG ---- */
@@ -306,7 +307,8 @@ body {
 .body.is--cursor .nav-logo-row,
 .body.is--cursor .nav-row__right,
 .body.is--cursor .dn-logo-link,
-.body.is--cursor .dn-logo-link * {
+.body.is--cursor .dn-logo-link *,
+.body.is--cursor .dn-footer-email {
   cursor: url("../cursors/cursor-pointer.svg") 12 0, pointer;
 }
 
@@ -318,7 +320,6 @@ body {
 .body.is--cursor [contenteditable="true"],
 .body.is--cursor .dn-header-link,
 .body.is--cursor .dn-footer-tagline,
-.body.is--cursor .dn-footer-status,
 .body.is--cursor .dn-hero,
 .body.is--cursor .dn-hero * {
   cursor: url("../cursors/cursor-text.svg") 9 19, text;
@@ -331,7 +332,7 @@ body {
   .dn-hero h1 { white-space: normal; }
   .dn-hero__line1, .dn-hero__line2 { font-size: clamp(20px, 5vw, 32px); }
   .dots-container { inset: 1em; }
-  .dn-footer-tagline, .dn-footer-status { font-size: .875em; }
+  .dn-footer-tagline, .dn-footer-email { font-size: .875em; }
   .footer-row {
     flex-direction: column;
     align-items: flex-start;
